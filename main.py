@@ -72,3 +72,12 @@ def webhook():
     reply = "Hi! We received your message: " + message
 
     return jsonify({"reply": reply})
+    print("🔥 Webhook test starting")
+
+    import requests
+    requests.post(
+    "https://webhook.site/45ea87ae-cba9-495b-87bf-8d6f287206eb",
+    json={"message": "Hello from Render deploy"}
+    )
+
+    print("✅ Webhook test sent")
