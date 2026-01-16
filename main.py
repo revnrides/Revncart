@@ -6,8 +6,8 @@ from email.mime.multipart import MIMEMultipart
 app = Flask(__name__)
 
 # ---------------- EMAIL CONFIG ----------------
-GMAIL_ADDRESS = "your-new-email@gmail.com"
-GMAIL_APP_PASSWORD = "your-16-character-app-password"
+GMAIL_ADDRESS = "your-new-email@gmail.com"  # replace with your email
+GMAIL_APP_PASSWORD = "your-16-character-app-password"  # replace with your app password
 
 def send_abandoned_cart_email(customer_email, customer_name, cart_items, checkout_link):
     subject = "You left items in your cart 🛒"
@@ -22,7 +22,6 @@ Complete your order here:
 
 — Your Store
 """
-
     msg = MIMEMultipart()
     msg["From"] = GMAIL_ADDRESS
     msg["To"] = customer_email
@@ -48,7 +47,7 @@ def home():
 def webhook():
     data = request.json or {}
 
-    # Abandoned cart data (later comes from Shopify)
+    # Abandoned cart data (example: Shopify webhook)
     customer_email = data.get("customer_email")
     customer_name = data.get("customer_name", "Customer")
     cart_items = data.get("cart_items", [])
@@ -62,7 +61,7 @@ def webhook():
             checkout_link
         )
 
-    # Existing bot reply logic (kept)
+    # Existing bot reply logic
     message = data.get("message", "")
     phone = data.get("phone", "unknown")
 
@@ -72,12 +71,7 @@ def webhook():
     reply = "Hi! We received your message: " + message
 
     return jsonify({"reply": reply})
-    print("🔥 Webhook test starting")
 
-    import requests
-    requests.post(
-    "https://webhook.site/45ea87ae-cba9-495b-87bf-8d6f287206eb",
-    json={"message": "Hello from Render deploy"}
-    )
-
-    print("✅ Webhook test sent")
+# ---------------- RUN APP (optional local test) ----------------
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
